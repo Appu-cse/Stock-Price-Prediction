@@ -14,6 +14,7 @@ import matplotlib.dates as mdates
 df = pd.read_csv('data_sets.csv')
 print(df.head(120))
 
+# %%
 if 'date' not in df.columns:
   df=df.reset_index()
 
@@ -102,6 +103,11 @@ plt.ylabel('VALUES')
 plt.legend()
 plt.show()
 
+plt.figure(figsize=(12 , 6))
+# Select a subset of data for better visualization (e.g., last 60 days)
+subset = df.last('100D')
+# Plot Open and Close as bars
+width = 0.4  # Width of bars
 plt.bar(subset.index - pd.Timedelta(days=width/2), subset['OPEN'],
         width=width, color='skyblue', label='Open Price')
 plt.bar(subset.index + pd.Timedelta(days=width/2), subset['CLOSE'],
@@ -120,7 +126,7 @@ plt.show()
 plt.figure(figsize=(15, 7))
 
 # Select subset for clarity
-subset = df.last('40D')
+subset = df.last('50D')
 # Plot high-low range as vertical lines
 plt.vlines(x=subset.index,
            ymin=subset['LOW'],
@@ -142,7 +148,7 @@ plt.gca().xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
 plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=3))
 plt.gcf().autofmt_xdate()
 
-plt.title('DATE-WISE HIGH-LOW RANGE (Last 40 Days)')
+plt.title('DATE-WISE HIGH-LOW RANGE (Last 50 Days)')
 plt.xlabel('DATE')
 plt.ylabel('PRICE')
 plt.legend()
